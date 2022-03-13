@@ -1,0 +1,5 @@
+.env*
+.gcloudignore
+.gitignore
+app.yaml
+Dockerfile

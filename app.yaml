@@ -1,6 +1,7 @@
-runtime: go116
+runtime: custom
+env: flex
 
 app_engine_apis: true
 
 env_variables:
-  PORT: 8080
+  TELEGRAPH_TOKEN:

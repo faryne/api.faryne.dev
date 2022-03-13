@@ -22,7 +22,23 @@ var doc = `{
     },
     "host": "{{.Host}}",
     "basePath": "{{.BasePath}}",
-    "paths": {}
+    "paths": {
+        "/telegraph/news": {
+            "get": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Telegraph"
+                ],
+                "summary": "取得 Telegraph 文章列表",
+                "responses": {}
+            }
+        }
+    }
 }`
 
 type swaggerInfo struct {
