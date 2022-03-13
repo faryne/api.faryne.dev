@@ -4,12 +4,14 @@ import (
 	"github.com/Netflix/go-env"
 	swagger "github.com/arsmn/fiber-swagger/v2"
 	"github.com/faryne/api-server/api/avgle"
+	"github.com/faryne/api-server/api/dmm"
 	"github.com/faryne/api-server/api/telegraph"
 	"github.com/faryne/api-server/config"
 	_ "github.com/faryne/api-server/docs"
 	"github.com/faryne/api-server/service/output"
 	_ "github.com/goccy/go-json"
 	"github.com/gofiber/fiber/v2"
+	"github.com/gofiber/fiber/v2/middleware/etag"
 	"github.com/joho/godotenv"
 	"os"
 	"time"
@@ -27,10 +29,10 @@ func main() {
 		StrictRouting: true,
 		CaseSensitive: true,
 		UnescapePath:  true,
-		ETag:          true,
 		ErrorHandler:  output.ErrorHandler,
 	})
 	// setting up middleware
+	app.Use(etag.New())
 	app.Use(func(ctx *fiber.Ctx) error {
 		ctx.Locals("start_time", time.Now().UnixMilli())
 		return ctx.Next()
@@ -38,8 +40,9 @@ func main() {
 
 	// 取得 telegraph news
 	app.Get("/telegraph/news", telegraph.News)
+	app.Get("/dmm/crawler", dmm.Crawler)
 	// AVGle 縮圖
-	app.Use(avgle.New(app))
+	app.Use(avgle.New())
 
 	app.Get("/*", swagger.HandlerDefault)
 

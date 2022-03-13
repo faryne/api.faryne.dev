@@ -23,6 +23,41 @@ var doc = `{
     "host": "{{.Host}}",
     "basePath": "{{.BasePath}}",
     "paths": {
+        "/dmm/crawler": {
+            "get": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "DMM"
+                ],
+                "summary": "使用 DMM 爬蟲爬出頁面指定資料",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "DMM目標頁面網址",
+                        "name": "url",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "enum": [
+                            "video",
+                            "actress"
+                        ],
+                        "type": "string",
+                        "description": "string enums",
+                        "name": "type",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {}
+            }
+        },
         "/telegraph/news": {
             "get": {
                 "consumes": [
@@ -35,6 +70,14 @@ var doc = `{
                     "Telegraph"
                 ],
                 "summary": "取得 Telegraph 文章列表",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "頁碼",
+                        "name": "page",
+                        "in": "query"
+                    }
+                ],
                 "responses": {}
             }
         }

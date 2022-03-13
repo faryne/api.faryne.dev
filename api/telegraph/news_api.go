@@ -11,6 +11,7 @@ import (
 // @Produce json
 // @Accept json
 // @Tags Telegraph
+// @Param page query int false "頁碼"
 // @Router /telegraph/news [GET]
 func News(ctx *fiber.Ctx) error {
 	account, err := t.New()
