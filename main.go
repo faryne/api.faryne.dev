@@ -11,6 +11,7 @@ import (
 	"github.com/faryne/api-server/service/output"
 	_ "github.com/goccy/go-json"
 	"github.com/gofiber/fiber/v2"
+	"github.com/gofiber/fiber/v2/middleware/cors"
 	"github.com/gofiber/fiber/v2/middleware/etag"
 	"github.com/joho/godotenv"
 	"os"
@@ -33,6 +34,7 @@ func main() {
 	})
 	// setting up middleware
 	app.Use(etag.New())
+	app.Use(cors.New())
 	app.Use(func(ctx *fiber.Ctx) error {
 		ctx.Locals("start_time", time.Now().UnixMilli())
 		return ctx.Next()
