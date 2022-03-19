@@ -13,6 +13,8 @@ require (
 	github.com/joho/godotenv v1.4.0 // indirect
 	github.com/swaggo/swag v1.8.0 // indirect
 	gitlab.com/toby3d/telegraph v1.2.1 // indirect
+	golang.org/x/net v0.0.0-20220225172249-27dd8689420f // indirect
+	golang.org/x/oauth2 v0.0.0-20220223155221-ee480838109b // indirect
 	golang.org/x/sys v0.0.0-20220310020820-b874c991c1a5 // indirect
 	google.golang.org/api v0.71.0 // indirect
 )

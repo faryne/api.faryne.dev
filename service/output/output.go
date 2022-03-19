@@ -39,9 +39,9 @@ func ErrorHandler(c *fiber.Ctx, err error) error {
 
 	// 計算執行時間
 	var costTime = float64(-1)
-	var endTime = float64(time.Now().UnixMilli())
+	var endTime = float64(time.Now().UnixNano())
 	if startTime := c.Locals("start_time"); startTime != nil {
-		costTime = (endTime - float64(startTime.(int64))) / float64(time.Microsecond)
+		costTime = (endTime - float64(startTime.(int64))) / float64(time.Second)
 	}
 
 	// 取出 ip

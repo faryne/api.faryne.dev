@@ -36,7 +36,7 @@ func main() {
 	app.Use(etag.New())
 	app.Use(cors.New())
 	app.Use(func(ctx *fiber.Ctx) error {
-		ctx.Locals("start_time", time.Now().UnixMilli())
+		ctx.Locals("start_time", time.Now().UnixNano())
 		return ctx.Next()
 	})
 
