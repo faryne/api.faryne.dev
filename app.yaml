@@ -13,4 +13,4 @@ automatic_scaling:
   min_idle_instances: 0
 
 env_variables:
-  TELEGRAPH_TOKEN:
+  TELEGRAPH_TOKEN: ${TELEGRAPH_TOKEN}
