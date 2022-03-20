@@ -18,7 +18,7 @@ jobs:
           go-version: '1.16'
       - uses: gokiwibot/gcp-yaml-compiler@v1.0
         env:
-          - TELEGRAPH_TOKEN: ${{ secrets.TELEGRAPH_TOKEN }}
+          TELEGRAPH_TOKEN: ${{ secrets.TELEGRAPH_TOKEN }}
       - run: |
           go get github.com/swaggo/swag/cmd/swag/...
           swag init
