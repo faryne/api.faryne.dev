@@ -5,10 +5,9 @@ on:
       - "master"
 
 jobs:
-  job_id:
-    permissions:
-      contents: 'read'
-      id-token: 'write'
+  permissions:
+    contents: 'read'
+    id-token: 'write'
   builds:
     runs-on: ubuntu-latest
     steps:
