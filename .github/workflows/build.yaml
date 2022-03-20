@@ -1,0 +1,24 @@
+name: Build & Deploy to Appengine
+on:
+  push:
+    branches:
+      - "master"
+
+jobs:
+  builds:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-go@v2
+        with:
+          go-version: '1.16'
+      - run: |
+          go get github.com/swaggo/swag/cmd/swag/...
+          swag init
+      ## https://github.com/marketplace/actions/deploy-to-app-engine
+      ## https://cloud.google.com/blog/products/identity-security/enabling-keyless-authentication-from-github-actions
+      - uses: 'google-github-actions/auth@v0'
+        with:
+          workload_identity_provider: ${{ secrets.WORKLOAD_IDENTITY }}
+          service_account: ${{ secrets.SERVICE_ACCOUNT }}
+      - uses: 'google-github-actions/deploy-appengine@v0'
