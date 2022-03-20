@@ -5,6 +5,10 @@ on:
       - "master"
 
 jobs:
+  job_id:
+    permissions:
+      contents: 'read'
+      id-token: 'write'
   builds:
     runs-on: ubuntu-latest
     steps:
@@ -19,6 +23,7 @@ jobs:
       ## https://cloud.google.com/blog/products/identity-security/enabling-keyless-authentication-from-github-actions
       - uses: 'google-github-actions/auth@v0'
         with:
+          create_credentials_file: 'true'
           workload_identity_provider: ${{ secrets.WORKLOAD_IDENTITY }}
           service_account: ${{ secrets.SERVICE_ACCOUNT }}
       - uses: 'google-github-actions/deploy-appengine@v0'
