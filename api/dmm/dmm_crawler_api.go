@@ -9,6 +9,12 @@ import (
 	"github.com/gofiber/fiber/v2"
 )
 
+func DmmUrlValidation(fl validator.FieldLevel) bool {
+	//url := fl.Field().String()
+	// TODO
+	return true
+}
+
 // @Summary 使用 DMM 爬蟲爬出頁面指定資料
 // @Produce json
 // @Accept json
@@ -22,12 +28,27 @@ func Crawler(ctx *fiber.Ctx) error {
 		return errors.New("")
 	}
 	v := validator.New()
+	v.RegisterValidation("dmm_url", DmmUrlValidation)
 	if err := v.Struct(r); err != nil {
 		return err
 	}
-	resp, err := dmm.GetData(&r)
+	resp, err := dmm.GetData(r.Url)
 	if err != nil {
 		return err
+	}
+	switch r.Type {
+	case "video":
+		out, err := dmm.GetVideos(resp)
+		if err != nil {
+			output.New(500, err.Error(), nil)
+		}
+		return output.New(200, "OK", out)
+	case "actress":
+		out, err := dmm.GetActresses(resp)
+		if err != nil {
+			output.New(500, err.Error(), nil)
+		}
+		return output.New(200, "OK", out)
 	}
 	return output.New(200, "OK", resp)
 }
