@@ -228,34 +228,26 @@ func GetActresses(response *http.Response) (*entity.DMMActress, error) {
 	actress := &entity.DMMActress{}
 
 	// 姓名
-	var name_field string
-	docs.Find("h1.c-tx-actressName").Each(func(i int, s *goquery.Selection) {
-		fmt.Println("name_field: " + s.Text())
-	})
-	//name_field := docs.Find("h1.c-tx-actressName").Text()
-	//if e != nil {
-	//	fmt.Println("Error when parse name: ", e.Error())
-	//}
-	fmt.Println("name field: " + name_field)
+	name_field := docs.Find("h1.c-tx-actressName").Text()
 	// 為了避免正規式難懂，把全形括號換成底線
 	replacer := strings.NewReplacer(
 		"（", "_",
 		"）", "_")
 	name_field = replacer.Replace(name_field)
-	pattern_name, _ := regexp.Compile("(?P<Name>[^（]*)_(?P<Kana>[^_]*)_")
+	pattern_name, _ := regexp.Compile("\\s+(?P<Name>[^(\\n|\\s)]*)\\n(?P<Kana>.+)")
 	if pattern_name.MatchString(name_field) {
 		match := pattern_name.FindStringSubmatch(name_field)
 		for i, names := range pattern_name.SubexpNames() {
 			switch names {
 			case "Name":
-				actress.Name = match[i]
+				actress.Name = strings.TrimSpace(match[i])
 			case "Kana":
-				actress.Kana = match[i]
+				actress.Kana = strings.TrimSpace(match[i])
 			}
 		}
 	}
 	// 大頭照
-	actress.Photo, _ = docs.Find("tr.area-av30.top > td:nth-child(1) > img").Attr("src")
+	actress.Photo, _ = docs.Find("span.p-section-profile__image > img").Attr("src")
 
 	// 其他個人資料
 	pattern_horoscope, _ := regexp.Compile(`星座`)
@@ -267,16 +259,23 @@ func GetActresses(response *http.Response) (*entity.DMMActress, error) {
 	pattern_3size, _ := regexp.Compile(`(T(?P<Height>[0-9]+)cm\s)?(B(?P<Bust>[0-9]+)cm)?(\((?P<Cup>[A-Z]{1,})カップ\))?(\sW(?P<Waist>[0-9]+)cm)?(\sH(?P<Hips>[0-9]+)cm)?`)
 	pattern_birthday, _ := regexp.Compile(`((?P<Year>[0-9]{4})年)?((?P<Month>[0-9]{1,})月)?((?P<Day>[0-9]{1,})日)?`)
 
-	docs.Find("tr.area-av30.top > td:nth-child(2) > table > tbody > tr").Each(func(i int, s *goquery.Selection) {
-		header, _ := s.Find("td:nth-child(1)").Html()
-		value, _ := s.Find("td:nth-child(2)").Html()
-		//fmt.Println(header)
+	values := make(map[int]string, 0)
+	docs.Find(".p-list-profile__description").Each(func(i int, s *goquery.Selection) {
+		v, _ := s.Html()
+		values[i] = strings.TrimSpace(v)
+	})
+	docs.Find("dt.p-list-profile__heading").Each(func(i int, s *goquery.Selection) {
+		header, _ := s.Html()
+		value := values[i]
+		header = strings.TrimSpace(header)
+		fmt.Println(header)
+		fmt.Println(value)
 
-		if pattern_horoscope.MatchString(header) {
+		if pattern_horoscope.MatchString(strings.TrimSpace(header)) {
 			if value != "----" {
 				actress.Horoscope = value
 			}
-		} else if pattern_blood.MatchString(header) {
+		} else if pattern_blood.MatchString(strings.TrimSpace(header)) {
 			if value != "----" {
 				actress.Blood = value
 			}
