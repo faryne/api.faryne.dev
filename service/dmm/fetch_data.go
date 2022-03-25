@@ -268,8 +268,6 @@ func GetActresses(response *http.Response) (*entity.DMMActress, error) {
 		header, _ := s.Html()
 		value := values[i]
 		header = strings.TrimSpace(header)
-		fmt.Println(header)
-		fmt.Println(value)
 
 		if pattern_horoscope.MatchString(strings.TrimSpace(header)) {
 			if value != "----" {
