@@ -2,6 +2,7 @@ package dmm
 
 import (
 	"errors"
+
 	"github.com/faryne/api-server/models/apireq"
 	"github.com/faryne/api-server/service/dmm"
 	"github.com/faryne/api-server/service/output"
@@ -16,6 +17,8 @@ func DmmUrlValidation(fl validator.FieldLevel) bool {
 }
 
 // @Summary 使用 DMM 爬蟲爬出頁面指定資料
+// @Description type=videos 影片列表網址範例：https://www.dmm.co.jp/digital/videoa/-/list/=/article=actress/id=1051402/?dmmref=adn00282&i3_ref=detail&i3_ord=1&i3_pst=info_actress
+// @Description type=actress 女優列表網址範例：https://www.dmm.co.jp/digital/videoa/-/actress/recommend/
 // @Produce json
 // @Accept json
 // @Tags DMM
@@ -40,13 +43,13 @@ func Crawler(ctx *fiber.Ctx) error {
 	case "video":
 		out, err := dmm.GetVideos(resp)
 		if err != nil {
-			output.New(500, err.Error(), nil)
+			return output.New(500, err.Error(), nil)
 		}
 		return output.New(200, "OK", out)
 	case "actress":
 		out, err := dmm.GetActresses(resp)
 		if err != nil {
-			output.New(500, err.Error(), nil)
+			return output.New(500, err.Error(), nil)
 		}
 		return output.New(200, "OK", out)
 	}

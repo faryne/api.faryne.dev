@@ -5,6 +5,7 @@ import (
 	swagger "github.com/arsmn/fiber-swagger/v2"
 	"github.com/faryne/api-server/api/avgle"
 	"github.com/faryne/api-server/api/dmm"
+	"github.com/faryne/api-server/api/hanime_api"
 	"github.com/faryne/api-server/api/telegraph"
 	"github.com/faryne/api-server/config"
 	_ "github.com/faryne/api-server/docs"
@@ -42,7 +43,10 @@ func main() {
 
 	// 取得 telegraph news
 	app.Get("/telegraph/news", telegraph.News)
+	// dmm crawler
 	app.Get("/dmm/crawler", dmm.Crawler)
+	// hanime newest
+	app.Get("/hanime/new.rss", hanime_api.NewUpload)
 	// AVGle 縮圖
 	app.Use(avgle.New())
 

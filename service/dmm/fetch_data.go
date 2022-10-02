@@ -1,6 +1,7 @@
 package dmm
 
 import (
+	"errors"
 	"fmt"
 	"github.com/PuerkitoBio/goquery"
 	"github.com/faryne/api-server/models/entity"
@@ -219,6 +220,7 @@ func ParseActresses(document goquery.Document, url string) []string {
 // GetActresses
 // @TODO qoquery selectors must be reviewd
 // url must be like: https://actress.dmm.co.jp/-/detail/=/actress_id=1000341/
+// Ref:https://actress.dmm.co.jp/api/actress_search_references?embed=actress_actress&not_null_value_contains=link_id&sort=asc.ruby&page=1&limit=200&priority_display_flg=1&initial=u
 func GetActresses(response *http.Response) (*entity.DMMActress, error) {
 	defer response.Body.Close()
 	docs, err := goquery.NewDocumentFromReader(response.Body)
@@ -248,6 +250,9 @@ func GetActresses(response *http.Response) (*entity.DMMActress, error) {
 	}
 	// 大頭照
 	actress.Photo, _ = docs.Find("span.p-section-profile__image > img").Attr("src")
+	if actress.Name == "" {
+		return actress, errors.New("actress not found")
+	}
 
 	// 其他個人資料
 	pattern_horoscope, _ := regexp.Compile(`星座`)
