@@ -5,7 +5,7 @@ import (
 	"errors"
 	memcacheInstance "github.com/bradfitz/gomemcache/memcache"
 	"github.com/gofiber/fiber/v2"
-	"google.golang.org/appengine/memcache"
+	"google.golang.org/appengine/v2/memcache"
 	"time"
 )
 

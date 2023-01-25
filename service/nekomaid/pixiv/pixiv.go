@@ -98,7 +98,7 @@ func (i *instance) Login() error {
 	u.Add("get_secure_url", "1")
 	u.Add("username", config.Config.Pixiv.Username)
 	u.Add("password", config.Config.Pixiv.Password)
-	u.Add("grant_type", "refresh_token")
+	u.Add("grant_type", "password")
 
 	req, err := http.NewRequest(http.MethodPost, LoginUrl, strings.NewReader(u.Encode()))
 	if err != nil {
@@ -120,6 +120,7 @@ func (i *instance) Login() error {
 	if err != nil {
 		return err
 	}
+	defer resp.Body.Close()
 	if resp.StatusCode != 200 {
 		return fmt.Errorf("http code should be 200, but got : %d \n", resp.StatusCode)
 	}

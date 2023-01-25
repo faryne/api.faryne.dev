@@ -6,15 +6,18 @@ import (
 	"github.com/faryne/api-server/api/avgle"
 	"github.com/faryne/api-server/api/dmm"
 	"github.com/faryne/api-server/api/hanime_api"
+	"github.com/faryne/api-server/api/nekomaid"
 	"github.com/faryne/api-server/api/telegraph"
 	"github.com/faryne/api-server/config"
 	_ "github.com/faryne/api-server/docs"
 	"github.com/faryne/api-server/service/output"
 	_ "github.com/goccy/go-json"
+	"github.com/gofiber/adaptor/v2"
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/cors"
 	"github.com/gofiber/fiber/v2/middleware/etag"
 	"github.com/joho/godotenv"
+	"net/http"
 	"os"
 	"time"
 )
@@ -47,10 +50,15 @@ func main() {
 	app.Get("/dmm/crawler", dmm.Crawler)
 	// hanime newest
 	app.Get("/hanime/new.rss", hanime_api.NewUpload)
+	// nekomaid
+	nekomaidGroup := app.Group("/nekomaid")
+	nekomaidGroup.Post("/retrieve.json", nekomaid.Retrieve)
 	// AVGle 縮圖
 	app.Use(avgle.New())
 
 	app.Get("/*", swagger.HandlerDefault)
 
-	app.Listen(":8080")
+	//app.Listen(":8080")
+	// 將 fiber app 轉換為 http.Handler 以便可以使用 GAE 上的資源
+	http.ListenAndServe(":8080", adaptor.FiberApp(app))
 }
