@@ -7,6 +7,8 @@ require (
 	github.com/PuerkitoBio/goquery v1.8.0 // indirect
 	github.com/arsmn/fiber-swagger v1.3.3 // indirect
 	github.com/arsmn/fiber-swagger/v2 v2.24.0 // indirect
+	github.com/bradfitz/gomemcache v0.0.0-20230124162541-5f7a7d875746 // indirect
+	github.com/disintegration/imaging v1.6.2 // indirect
 	github.com/go-playground/validator/v10 v10.10.1 // indirect
 	github.com/goccy/go-json v0.9.5 // indirect
 	github.com/gofiber/fiber/v2 v2.29.0 // indirect

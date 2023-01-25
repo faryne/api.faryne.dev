@@ -2,4 +2,5 @@
 .gcloudignore
 .gitignore
 app.yaml
+app-*.yaml
 Dockerfile
