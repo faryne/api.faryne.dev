@@ -1,7 +1,9 @@
 #runtime: custom
 #env: flex
 
-runtime: go116
+# https://cloud.google.com/appengine/docs/standard/reference/app-yaml?hl=zh-cn&tab=go#top
+runtime: go119
+
 
 app_engine_apis: true
 
