@@ -121,13 +121,15 @@ func (i *instance) Login() error {
 		return err
 	}
 	defer resp.Body.Close()
-	if resp.StatusCode != 200 {
-		return fmt.Errorf("http code should be 200, but got : %d \n", resp.StatusCode)
-	}
-
 	output, err := ioutil.ReadAll(resp.Body)
 	if err != nil {
 		return err
+	}
+	if resp.StatusCode != 200 {
+		fmt.Println("str: " + str)
+		fmt.Println("md5: " + md5str1)
+		fmt.Println("params: " + u.Encode())
+		return fmt.Errorf("http code should be 200, but got : %d, reason: %s", resp.StatusCode, string(output))
 	}
 	var token OAuthAPIResponse
 	json.Unmarshal(output, &token)
