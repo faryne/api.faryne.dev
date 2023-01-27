@@ -98,7 +98,8 @@ func (i *instance) Login() error {
 	u.Add("get_secure_url", "1")
 	u.Add("username", config.Config.Pixiv.Username)
 	u.Add("password", config.Config.Pixiv.Password)
-	u.Add("grant_type", "password")
+	u.Add("refresh_token", "OxA0xQjPUoLarW5IInGxqUNTEBwq9kptrIUoZfvqffA")
+	u.Add("grant_type", "refresh_token")
 
 	req, err := http.NewRequest(http.MethodPost, LoginUrl, strings.NewReader(u.Encode()))
 	if err != nil {

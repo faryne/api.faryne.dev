@@ -9,6 +9,10 @@ require (
 	github.com/andybalholm/cascadia v1.3.1 // indirect
 	github.com/arsmn/fiber-swagger v1.3.3 // indirect
 	github.com/arsmn/fiber-swagger/v2 v2.24.0 // indirect
+	github.com/aws/aws-sdk-go-v2 v1.17.3 // indirect
+	github.com/aws/aws-sdk-go-v2/config v1.18.10 // indirect
+	github.com/aws/aws-sdk-go-v2/credentials v1.13.10 // indirect
+	github.com/aws/aws-sdk-go-v2/service/s3 v1.30.1 // indirect
 	github.com/bradfitz/gomemcache v0.0.0-20230124162541-5f7a7d875746 // indirect
 	github.com/disintegration/imaging v1.6.2 // indirect
 	github.com/go-playground/validator/v10 v10.10.1 // indirect

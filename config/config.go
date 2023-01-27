@@ -11,6 +11,10 @@ type Core struct {
 	Tinami struct {
 		ApiKey string `env:"NEKOMAID_TINAMI_APIKEY"`
 	}
+	AWS struct {
+		Key    string `env:"AWS_KEY"`
+		Secret string `env:"AWS_SECRET"`
+	}
 }
 
 var Config Core

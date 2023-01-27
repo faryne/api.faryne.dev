@@ -7,6 +7,7 @@ import (
 	"fmt"
 	"github.com/disintegration/imaging"
 	"github.com/faryne/api-server/models/artwork"
+	"github.com/faryne/api-server/pkg/storage/s3"
 	"github.com/gofiber/fiber/v2/utils"
 	"image"
 	"image/png"
@@ -14,9 +15,9 @@ import (
 	"math/rand"
 	"net/http"
 	"net/url"
-	"os"
 	"strconv"
 	"strings"
+	"time"
 )
 
 type Site string
@@ -28,6 +29,9 @@ const (
 )
 
 const Home = "https://nekomaid.web.app"
+
+const BucketName = "ha2-pixiv"
+const BucketRegion = "us-east-1"
 
 const PreviewUrlPattern = Home + "#/%s/%s/%s"
 
@@ -88,9 +92,11 @@ func UploadImage(artworkId string, reader *http.Response, idx int) (artwork.Imag
 	o.Raw = imageUrl.String()
 	o.Original = o.Raw
 
+	// s3 lib
+	s3Client := s3.New(BucketName, BucketRegion)
 	// 處理縮圖
 	if idx == 0 {
-		thumbName := fmt.Sprintf("%s_%s_thumb.%s", artworkId, hashId, o.Ext)
+		thumbName := fmt.Sprintf("thumb/%s_%s_thumb.%s", artworkId, hashId, o.Ext)
 		thumb = getDomain() + "/" + thumbName // 設定縮圖完整網址
 		var width, height = 120, 0
 		if img.Bounds().Dx() < img.Bounds().Dy() {
@@ -98,15 +104,14 @@ func UploadImage(artworkId string, reader *http.Response, idx int) (artwork.Imag
 			height = 120
 		}
 		newImage := imaging.Resize(img, width, height, imaging.Lanczos)
-		fp, err := os.Create("./" + thumbName)
-		if err != nil {
-			return o, thumb, err
-		}
 		// 呼叫 S3 upload
-		if err := png.Encode(fp, newImage); err != nil {
+		var thumbBytes = new(bytes.Buffer)
+		if err := png.Encode(thumbBytes, newImage); err != nil {
 			return o, thumb, err
 		}
-		defer fp.Close()
+		if err := s3Client.Set(thumbName, thumbBytes.Bytes(), 86400*time.Second); err != nil {
+			return o, thumb, err
+		}
 	}
 
 	// 計算圖片真實路徑
@@ -118,10 +123,13 @@ func UploadImage(artworkId string, reader *http.Response, idx int) (artwork.Imag
 	o.Filename = filename
 	o.Url = getDomain() + "/" + filename
 	// 呼叫 S3 upload
-	fp, _ := os.Create("./" + filename)
-	png.Encode(fp, img)
-	defer fp.Close()
-
+	var imgBytes = new(bytes.Buffer)
+	if err := png.Encode(imgBytes, img); err != nil {
+		return o, thumb, err
+	}
+	if err := s3Client.Set(filename, imgBytes.Bytes(), 86400*time.Second); err != nil {
+		return o, thumb, err
+	}
 	return o, thumb, nil
 }
 

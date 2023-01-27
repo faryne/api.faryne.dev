@@ -32,20 +32,25 @@ func New(env Environment) fiber.Storage {
 }
 
 func (m *instance) Get(key string) ([]byte, error) {
-	var resp interface{}
-	var err error
 	if m.Client != nil {
-		resp, err = m.Client.Get(key)
-	} else {
-		resp, err = memcache.Get(context.TODO(), key)
-	}
-	if err != nil {
-		if errors.Is(err, memcache.ErrCacheMiss) || errors.Is(err, memcacheInstance.ErrCacheMiss) {
-			return nil, nil
+		resp, err := m.Client.Get(key)
+		if err != nil {
+			if errors.Is(err, memcacheInstance.ErrCacheMiss) {
+				return nil, nil
+			}
+			return nil, err
 		}
-		return nil, err
+		return resp.Value, nil
+	} else {
+		resp, err := memcache.Get(context.TODO(), key)
+		if err != nil {
+			if errors.Is(err, memcache.ErrCacheMiss) {
+				return nil, nil
+			}
+			return nil, err
+		}
+		return resp.Value, nil
 	}
-	return resp.(*memcacheInstance.Item).Value, nil
 }
 
 func (m *instance) Set(key string, val []byte, ttl time.Duration) error {
