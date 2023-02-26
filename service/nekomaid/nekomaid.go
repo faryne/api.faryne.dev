@@ -10,6 +10,7 @@ import (
 	"github.com/faryne/api-server/pkg/storage/s3"
 	"github.com/gofiber/fiber/v2/utils"
 	"image"
+	"image/jpeg"
 	"image/png"
 	"io"
 	"math/rand"
@@ -59,19 +60,23 @@ func UploadImage(artworkId string, reader *http.Response, idx int) (artwork.Imag
 	}
 	// 將 image 物件轉換為 bytes，並且算出 hashId
 	b := new(bytes.Buffer)
-	if err := png.Encode(b, img); err != nil {
-		return o, thumb, err
+	// 解出副檔名
+	o.Ext = format
+	if strings.ToLower(format) == "jpeg" { // 碰到是 jpeg 時，副檔名改為 jpg
+		o.Ext = "jpg"
+		if err := jpeg.Encode(b, img, &jpeg.Options{Quality: 80}); err != nil {
+			return o, thumb, err
+		}
+	} else {
+		if err := png.Encode(b, img); err != nil {
+			return o, thumb, err
+		}
 	}
 	m := md5.New()
 	if _, err := io.Copy(m, b); err != nil {
 		return o, thumb, err
 	}
 	hashId := hex.EncodeToString(m.Sum(b.Bytes()))[0:5]
-	// 解出副檔名
-	o.Ext = format
-	if strings.ToLower(format) == "jpeg" { // 碰到是 jpeg 時，副檔名改為 jpg
-		o.Ext = "jpg"
-	}
 	o.Size = reader.ContentLength
 	if o.Size <= 0 {
 		// @TODO：tinami 的檔案長度需要額外處理
@@ -124,8 +129,14 @@ func UploadImage(artworkId string, reader *http.Response, idx int) (artwork.Imag
 	o.Url = getDomain() + "/" + filename
 	// 呼叫 S3 upload
 	var imgBytes = new(bytes.Buffer)
-	if err := png.Encode(imgBytes, img); err != nil {
-		return o, thumb, err
+	if strings.ToLower(format) == "jpeg" {
+		if err := jpeg.Encode(imgBytes, img, &jpeg.Options{Quality: 80}); err != nil {
+			return o, thumb, err
+		}
+	} else {
+		if err := png.Encode(imgBytes, img); err != nil {
+			return o, thumb, err
+		}
 	}
 	if err := s3Client.Set(filename, imgBytes.Bytes(), 86400*time.Second); err != nil {
 		return o, thumb, err
