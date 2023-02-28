@@ -15,7 +15,7 @@ type retrieveRequest struct {
 }
 
 // Retrieve 執行作品資訊解析與圖片抓取
-// @Summary 使用 DMM 爬蟲爬出頁面指定資料
+// @Summary 執行作品資訊解析與圖片抓取
 // @Produce json
 // @Accept x-www-form-urlencoded
 // @Tags Nekomaid
