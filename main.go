@@ -11,9 +11,11 @@ import (
 	"github.com/faryne/api-server/service/output"
 	_ "github.com/goccy/go-json"
 	"github.com/gofiber/fiber/v2"
+	"github.com/gofiber/fiber/v2/middleware/adaptor"
 	"github.com/gofiber/fiber/v2/middleware/cors"
 	"github.com/gofiber/fiber/v2/middleware/etag"
 	"github.com/joho/godotenv"
+	goapp "github.com/maxence-charriere/go-app/v9/pkg/app"
 	"os"
 	"time"
 )
@@ -45,6 +47,8 @@ func main() {
 	app.Get("/dmm/crawler", dmm.Crawler)
 	// AVGle 縮圖
 	app.Use(avgle.New())
+
+	app.Use(adaptor.HTTPHandler(&goapp.Handler{}))
 
 	app.Get("/*", swagger.HandlerDefault)
 
