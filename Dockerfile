@@ -1,4 +1,4 @@
-FROM golang:1.17.6-alpine3.15 AS builder
+FROM golang:1.23.6-alpine3.20 AS builder
 
 RUN mkdir /apiv2 && apk add git
 COPY . /apiv2
@@ -9,7 +9,7 @@ RUN apk add git && \
     swag init && \
     go build -o server main.go
 
-FROM alpine:3.15
+FROM alpine:3.20
 WORKDIR /
 COPY --from=builder /apiv2/server .
 CMD ["/server"]
