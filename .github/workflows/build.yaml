@@ -15,13 +15,10 @@ jobs:
       - uses: actions/checkout@v2
       - uses: actions/setup-go@v2
         with:
-          go-version: '1.16'
+          go-version: '1.23'
       - uses: gokiwibot/gcp-yaml-compiler@v1.0
         env:
           TELEGRAPH_TOKEN: ${{ secrets.TELEGRAPH_TOKEN }}
-      - run: |
-          go get github.com/swaggo/swag/cmd/swag/...
-          swag init
       ## https://github.com/marketplace/actions/deploy-to-app-engine
       ## https://cloud.google.com/blog/products/identity-security/enabling-keyless-authentication-from-github-actions
       - uses: 'google-github-actions/auth@v0'

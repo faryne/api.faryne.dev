@@ -14,9 +14,11 @@ import (
 	_ "github.com/goccy/go-json"
 	"github.com/gofiber/adaptor/v2"
 	"github.com/gofiber/fiber/v2"
+	"github.com/gofiber/fiber/v2/middleware/adaptor"
 	"github.com/gofiber/fiber/v2/middleware/cors"
 	"github.com/gofiber/fiber/v2/middleware/etag"
 	"github.com/joho/godotenv"
+	goapp "github.com/maxence-charriere/go-app/v9/pkg/app"
 	"net/http"
 	"os"
 	"time"
@@ -55,6 +57,8 @@ func main() {
 	nekomaidGroup.Post("/retrieve.json", nekomaid.Retrieve)
 	// AVGle 縮圖
 	app.Use(avgle.New())
+
+	app.Use(adaptor.HTTPHandler(&goapp.Handler{}))
 
 	app.Get("/*", swagger.HandlerDefault)
 

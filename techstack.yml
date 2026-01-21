@@ -1,0 +1,126 @@
+repo_name: faryne/api.faryne.dev
+report_id: 1a77a0d0042c8c5677473b8635ea7084
+version: 0.1
+repo_type: Public
+timestamp: '2024-02-16T01:54:35+00:00'
+requested_by: faryne
+provider: github
+branch: master
+detected_tools_count: 9
+tools:
+- name: Golang
+  description: An open source programming language that makes it easy to build simple,
+    reliable, and efficient software
+  website_url: http://golang.org/
+  license: BSD-3-Clause
+  open_source: true
+  hosted_saas: false
+  category: Languages & Frameworks
+  sub_category: Languages
+  image_url: https://img.stackshare.io/service/1005/O6AczwfV_400x400.png
+  detection_source_url: https://github.com/faryne/api.faryne.dev
+  detection_source: Repo Metadata
+- name: Docker
+  description: Enterprise Container Platform for High-Velocity Innovation.
+  website_url: https://www.docker.com/
+  license: Apache-2.0
+  open_source: true
+  hosted_saas: false
+  category: Build, Test, Deploy
+  sub_category: Virtual Machine Platforms & Containers
+  image_url: https://img.stackshare.io/service/586/n4u37v9t_400x400.png
+  detection_source_url: https://github.com/faryne/api.faryne.dev
+  detection_source: Repo Metadata
+- name: Git
+  description: Fast, scalable, distributed revision control system
+  website_url: http://git-scm.com/
+  open_source: true
+  hosted_saas: false
+  category: Build, Test, Deploy
+  sub_category: Version Control System
+  image_url: https://img.stackshare.io/service/1046/git.png
+  detection_source_url: https://github.com/faryne/api.faryne.dev
+  detection_source: Repo Metadata
+- name: GitHub Actions
+  description: Automate your workflow from idea to production
+  website_url: https://github.com/features/actions
+  open_source: false
+  hosted_saas: true
+  category: Build, Test, Deploy
+  sub_category: Continuous Integration
+  image_url: https://img.stackshare.io/service/11563/actions.png
+  detection_source_url: https://github.com/faryne/api.faryne.dev/blob/master/.github/workflows/build.yaml
+  detection_source: ".github/workflows/build.yaml"
+  last_updated_by: Faryne
+  last_updated_on: 2022-03-20 11:26:07.000000000 Z
+- name: compress
+  description: Optimized compression packages
+  package_url: https://pkg.go.dev/github.com/klauspost/compress
+  version: 1.8.2
+  license: BSD-3-Clause
+  open_source: true
+  hosted_saas: false
+  category: Libraries
+  sub_category: Go Modules Packages
+  image_url: https://img.stackshare.io/package/go-packages/image.png
+  detection_source_url: https://github.com/faryne/api.faryne.dev/blob/master/go.sum
+  detection_source: go.mod
+  last_updated_by: faryne
+  last_updated_on: 2023-06-20 08:30:15.000000000 Z
+- name: godotenv
+  description: A Go port of Ruby's dotenv library
+  package_url: https://pkg.go.dev/github.com/joho/godotenv
+  version: 1.4.0
+  license: MIT
+  open_source: true
+  hosted_saas: false
+  category: Libraries
+  sub_category: Go Modules Packages
+  image_url: https://img.stackshare.io/package/go-packages/image.png
+  detection_source_url: https://github.com/faryne/api.faryne.dev/blob/master/go.sum
+  detection_source: go.mod
+  last_updated_by: Faryne
+  last_updated_on: 2022-03-11 08:36:33.000000000 Z
+- name: goquery
+  description: A little like that j-thing, only in Go
+  package_url: https://pkg.go.dev/github.com/PuerkitoBio/goquery
+  version: 1.8.0
+  license: BSD-3-Clause
+  open_source: true
+  hosted_saas: false
+  category: Libraries
+  sub_category: Go Modules Packages
+  image_url: https://img.stackshare.io/package/go-packages/image.png
+  detection_source_url: https://github.com/faryne/api.faryne.dev/blob/master/go.sum
+  detection_source: go.mod
+  last_updated_by: Faryne
+  last_updated_on: 2022-03-13 15:39:10.000000000 Z
+- name: oauth2
+  description: Go OAuth2
+  package_url: https://pkg.go.dev/golang.org/x/oauth2
+  version: 0.0.0
+  license: BSD-3-Clause
+  open_source: true
+  hosted_saas: false
+  category: Libraries
+  sub_category: Go Modules Packages
+  image_url: https://img.stackshare.io/package/go-packages/image.png
+  detection_source_url: https://github.com/faryne/api.faryne.dev/blob/master/go.sum
+  detection_source: go.mod
+  last_updated_by: Faryne
+  last_updated_on: 2022-03-19 10:07:59.000000000 Z
+- name: swaggo/swag
+  description: Automatically generate RESTful API documentation with Swagger 2.0 for
+    Go
+  package_url: https://pkg.go.dev/github.com/swaggo/swag
+  version: 1.5.1
+  license: MIT
+  open_source: true
+  hosted_saas: false
+  category: Libraries
+  sub_category: Go Modules Packages
+  image_url: https://img.stackshare.io/package/go-packages/image.png
+  detection_source_url: https://github.com/faryne/api.faryne.dev/blob/master/go.sum
+  detection_source: go.mod
+  last_updated_by: Faryne
+  last_updated_on: 2022-03-11 08:36:33.000000000 Z
